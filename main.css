@@ -50,6 +50,21 @@ body {
 	outline: none;
 }
 
+.input-button {
+	display: none;
+	width: 200px;
+	height: 50px;
+	margin-top: 20px;
+	margin-left: 50%;
+	transform: translateX(-50%);
+	text-transform: uppercase;
+	font-weight: bold;
+	background-color: inherit;
+	color: white;
+	border-style: none;
+	outline: none;
+}
+
 .timer {
 	display: none;
 	text-align: center;

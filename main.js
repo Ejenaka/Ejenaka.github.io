@@ -21,6 +21,11 @@ let time;
 function setNameField() {
 	startButton.style.display = 'none';
 	nameInput.style.display = 'block';
+	const inputButton = document.createElement('button');
+	console.log(inputButton);
+	inputButton.className = 'start-button';
+	inputButton.style.display = 'block';
+	document.querySelector('.main-items').append(inputButton);
 }
 
 nameInput.addEventListener('keypress', (e) => {
