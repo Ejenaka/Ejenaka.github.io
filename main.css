@@ -137,9 +137,13 @@ body {
 	}
 	.sentence {
 		text-align: center;
-		margin-bottom: 250px;
 		padding: 10px;
 	}
+
+	.game-timer {
+		margin-top: 150px;
+	}
+
 	#mobile-keyboard-input {
 		display: block;
 	}
