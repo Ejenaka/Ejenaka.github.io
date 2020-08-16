@@ -4,6 +4,7 @@ const mainTitle = document.querySelector('.main-title');
 const timer = document.querySelector('.timer');
 const gameTimer = document.querySelector('.game-timer');
 const sentencePlace = document.querySelector('.sentence');
+
 let sentences = [
 	'Robert was a good king',
 	'After the death of the king, everyone wanted to be a king',
