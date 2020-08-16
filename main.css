@@ -125,6 +125,7 @@ body {
 	border-style: none;
 	outline: none;
 	color: #0e1111;
+	-webkit-appearance: none;
 }
 
 @media only screen and (max-width: 620px) {
