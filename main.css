@@ -117,6 +117,16 @@ body {
 	cursor: pointer;
 }
 
+#mobile-keyboard-input {
+	display: none;
+	margin: 20px auto;
+	width: 10px;
+	background-color: inherit;
+	border-style: none;
+	outline: none;
+	color: #0e1111;
+}
+
 @media only screen and (max-width: 620px) {
 	.body {
 		max-width: 800px;
@@ -126,7 +136,10 @@ body {
 	}
 	.sentence {
 		text-align: center;
-		margin-bottom: 200px;
+		margin-bottom: 250px;
 		padding: 10px;
+	}
+	#mobile-keyboard-input {
+		display: block;
 	}
 }

@@ -4,6 +4,7 @@ const mainTitle = document.querySelector('.main-title');
 const timer = document.querySelector('.timer');
 const gameTimer = document.querySelector('.game-timer');
 const sentencePlace = document.querySelector('.sentence');
+const mobileInput = document.getElementById('mobile-keyboard-input');
 
 let sentences = [
 	'Robert was a good king',
@@ -74,11 +75,14 @@ function setTimer() {
 
 function gameStart(playerName) {
 	setGameTimer();
+	if (!mobileInput.style.display) {
+		console.log('focus');
+		mobileInput.focus();
+	}
 	sentencePlace.style.display = 'block';
 	let sentence = generateNewSentence();
 	let letterPosition = -1;
 	score = 0;
-	console.log(sentences);
 	document.addEventListener('keypress', (e) => {
 		letterPosition++;
 		console.log(`${e.key} is pressed\nPosition:${letterPosition}`);
