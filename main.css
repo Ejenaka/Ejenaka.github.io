@@ -126,6 +126,7 @@ body {
 	outline: none;
 	color: #0e1111;
 	-webkit-appearance: none;
+	border-radius: 0;
 }
 
 @media only screen and (max-width: 620px) {
