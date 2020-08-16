@@ -17,38 +17,51 @@ let sentences = [
 
 let playerName;
 let time;
+let score;
 
 function setNameField() {
 	startButton.style.display = 'none';
 	nameInput.style.display = 'block';
-	const inputButton = document.createElement('button');
-	console.log(inputButton);
-	inputButton.className = 'start-button';
-	inputButton.style.display = 'block';
-	document.querySelector('.main-items').append(inputButton);
+	document.querySelector('.input-button').style.display = 'block';
 }
 
 nameInput.addEventListener('keypress', (e) => {
 	if (e.code == 'Enter') {
 		playerName = nameInput.value;
 		console.log(playerName);
-		readyState();
+		setTimer();
 	}
 });
 
-function readyState() {
-	mainTitle.remove();
-	nameInput.remove();
+function setTimer() {
+	console.log(nameInput.value);
+	if (!nameInput.value) {
+		playMissSound();
+		nameInput.style.borderStyle = 'solid';
+		nameInput.style.borderColor = 'red';
+		nameInput.style.boxShadow = '0 0 10px red';
+		nameInput.placeholder = 'Please, enter your name';
+		return;
+	}
+	try {
+		mainTitle.remove();
+		nameInput.remove();
+		startButton.remove();
+		document.querySelector('.input-button').remove();
+		//document.querySelector('.restart-button').remove();
+	} catch (error) {}
+	sentencePlace.style.display = 'none';
+	sentencePlace.textContent = '';
+	document.querySelector('.restart-button').style.display = 'none';
 	time = 3;
 	timer.textContent = time;
 	timer.style.display = 'inline';
 	timer.parentElement.style.margin = 'auto';
 	playSelectSound();
 	let readyTimerInterval = setInterval(() => {
-		console.log(`interval: ${time}`);
 		if (time == 0) {
 			playGoSound();
-			timer.remove();
+			timer.style.display = 'none';
 			clearInterval(readyTimerInterval);
 			gameStart(playerName);
 			return;
@@ -63,7 +76,7 @@ function gameStart(playerName) {
 	sentencePlace.style.display = 'block';
 	let sentence = generateNewSentence();
 	let letterPosition = -1;
-	let score = 0;
+	score = 0;
 	console.log(sentences);
 	document.addEventListener('keypress', (e) => {
 		letterPosition++;
@@ -100,8 +113,20 @@ function setGameTimer() {
 	gameTimer.style.display = 'inline';
 	gameTimer.style.fontSize = '50px';
 	let gameTimerInterval = setInterval(() => {
-		gameTimer.textContent = --time;
+		gameTimer.textContent = time;
+		console.log(time);
+		if (time == -1) {
+			clearInterval(gameTimerInterval);
+			gameEnd();
+		}
+		time--;
 	}, 1000);
+}
+
+function gameEnd() {
+	gameTimer.style.display = 'none';
+	sentencePlace.textContent = `Time is up! You scored ${score} points!`;
+	document.querySelector('.restart-button').style.display = 'block';
 }
 
 function generateNewSentence() {
@@ -118,7 +143,6 @@ function generateNewSentence() {
 		sentencePlace.append(letterElement);
 		document.getElementById(`letter-pos:${letterPos}`).textContent = sentence[letterPos];
 	}
-	//sentencePlace.textContent = sentence;
 	return sentence;
 }
 
