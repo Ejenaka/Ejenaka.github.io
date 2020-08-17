@@ -20,6 +20,8 @@ let sentences = [
 let playerName;
 let time;
 let score;
+let letterPosition;
+let sentence;
 
 function setNameField() {
 	startButton.style.display = 'none';
@@ -30,13 +32,11 @@ function setNameField() {
 nameInput.addEventListener('keypress', (e) => {
 	if (e.code == 'Enter') {
 		playerName = nameInput.value;
-		console.log(playerName);
 		setTimer();
 	}
 });
 
 function setTimer() {
-	console.log(nameInput.value);
 	if (!nameInput.value) {
 		playMissSound();
 		nameInput.style.borderStyle = 'solid';
@@ -50,7 +50,6 @@ function setTimer() {
 		nameInput.remove();
 		startButton.remove();
 		document.querySelector('.input-button').remove();
-		//document.querySelector('.restart-button').remove();
 	} catch (error) {}
 	sentencePlace.style.display = 'none';
 	sentencePlace.textContent = '';
@@ -76,40 +75,39 @@ function setTimer() {
 function gameStart(playerName) {
 	setGameTimer();
 	if (!mobileInput.style.display) {
-		console.log('focus');
 		mobileInput.focus();
 	}
 	sentencePlace.style.display = 'block';
-	let sentence = generateNewSentence();
-	let letterPosition = -1;
+	sentence = generateNewSentence();
+	letterPosition = -1;
 	score = 0;
-	document.addEventListener('keypress', (e) => {
-		letterPosition++;
-		console.log(`${e.key} is pressed\nPosition:${letterPosition}`);
-		const letterElement = document.getElementById(`letter-pos:${letterPosition}`);
-		if (e.key == sentence[letterPosition]) {
-			playHitSound();
-			if (letterElement.textContent == ' ') {
-				letterElement.style.backgroundColor = 'green';
-			} else {
-				letterElement.style.color = 'green';
-			}
-			score++;
+	document.addEventListener('keypress', keyPressed);
+}
+
+function keyPressed(e) {
+	letterPosition++;
+	const letterElement = document.getElementById(`letter-pos:${letterPosition}`);
+	if (e.key == sentence[letterPosition]) {
+		playHitSound();
+		if (letterElement.textContent == ' ') {
+			letterElement.style.backgroundColor = 'green';
 		} else {
-			playMissSound();
-			if (letterElement.textContent == ' ') {
-				letterElement.style.backgroundColor = 'firebrick';
-			}
-			letterElement.style.color = 'firebrick';
-			score--;
+			letterElement.style.color = 'green';
 		}
-		if (letterPosition == sentence.length - 1) {
-			sentences.splice(sentences.indexOf(sentence), 1);
-			sentence = generateNewSentence();
-			letterPosition = -1;
-			console.log(sentences);
+		score++;
+	} else {
+		playMissSound();
+		if (letterElement.textContent == ' ') {
+			letterElement.style.backgroundColor = 'firebrick';
 		}
-	});
+		letterElement.style.color = 'firebrick';
+		score--;
+	}
+	if (letterPosition == sentence.length - 1) {
+		sentences.splice(sentences.indexOf(sentence), 1);
+		sentence = generateNewSentence();
+		letterPosition = -1;
+	}
 }
 
 function setGameTimer() {
@@ -119,7 +117,6 @@ function setGameTimer() {
 	gameTimer.style.fontSize = '50px';
 	let gameTimerInterval = setInterval(() => {
 		gameTimer.textContent = time;
-		console.log(time);
 		if (time == -1) {
 			clearInterval(gameTimerInterval);
 			gameEnd();
@@ -129,6 +126,7 @@ function setGameTimer() {
 }
 
 function gameEnd() {
+	document.removeEventListener('keypress', keyPressed);
 	gameTimer.style.display = 'none';
 	sentencePlace.textContent = `Time is up! You scored ${score} points!`;
 	document.querySelector('.restart-button').style.display = 'block';
@@ -139,7 +137,6 @@ function generateNewSentence() {
 	Array.from(spanElements).forEach((element) => {
 		element.remove();
 	});
-	console.log(spanElements);
 	let = sentencePosition = Math.floor(Math.random() * sentences.length);
 	let sentence = sentences[sentencePosition];
 	for (let letterPos = 0; letterPos < sentence.length; letterPos++) {
